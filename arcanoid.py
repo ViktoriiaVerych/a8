@@ -21,28 +21,14 @@ class Ball:
     def __init__(self, x, y):
         self.x = x
         self.y = y
-        # self.color = RED
+        self.size = 60
+        self.color = (200, 0, 0)
 
-    def update(self):
-        global ball
-        global ball_x, ball_y
-        if ball_x == 'left':
-            ball.x -= velx
-            if ball.x < 10:
-                ball_x = 'right'
-        if ball_y == 'down':
-            ball.y += vel_y
-        if ball_y == 'up':
-            ball.y -= vel_y
-            if ball.y < 30:
-                ball_y = 'down'
-        if ball_x == 'right':
-            ball.x += velx
-            if ball.x > 490:
-                ball_x == 'left'
+        # self.rect = pygame.Rect(self.x, self.y, 6, 6)
+        self.actor = Actor('r_b.png')
+    def draw(self):
+        self.actor.draw()
 
-        gfxdraw.filled_circle(screen, ball.x, ball.y, 6, self.color)
-        self.rect = pygame.Rect(self.x, self.y, 6, 6)
 
 class Brick:
     def __init__(self, x, y, randomcolor):
@@ -54,27 +40,28 @@ class Brick:
     def update(self):
         pygame.draw.rect(screen, self.color, (self.x, self.y, 50, 20))
 
+class Paddle:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+        self.size = 60
+        self.rect = pygame.Rect(self.x, self.y, self.size, 10)
+
+    def update(self):
+        pass
+        # paddle = pygame.image.load('p_p.jpg')
+        # pygame.draw.rect(screen, RED, (self.x, self.y, self.size, 10))
+
+
+paddle = Paddle(350, 370)
+ball = Ball(200, 200)
 
 # paddle = pygame.image.load('p_p.jpg')
 # paddle = Actor('p_p.jpg')
 # paddle.x = 350
 # paddle.y = 370
 
-class paddle:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-        self.size = 60
-    def update(self):
-        paddle = pygame.image.load('p_p.jpg')
-        # pygame.draw.rect(screen, RED, (self.x, self.y, self.size, 10))
-        self.rect = pygame.Rect(self.x, self.y, self.size, 10)
-
-
-
-
-
-
+ball = Ball(0,0)
 ball_x_speed = -3
 ball_y_speed = -3
 
@@ -87,10 +74,11 @@ def draw():
     color = (0, 100, 100)
     surface.fill(color)
     pygame.display.flip()
-    paddle.draw()
+    screen.draw.rect(paddle.rect, (200,0,0))
     ball.draw()
-    for bar in bars_list:
-        bar.draw()
+    # ball.draw()
+    # for bar in bars_list:
+    #     bar.draw()
 
 def place_bars(x,y,image):
     bar_x = x
@@ -102,37 +90,40 @@ def place_bars(x,y,image):
         bar_x += 70
         bars_list.append(bar)
 
+def on_mouse_move(pos):
+    x = pos[0]
+    paddle.rect.centerx = x
 
-
-def update(dt):
-    global ball_x_speed, ball_y_speed
-    if keyboard.left:             #rewrite using mouse
-        paddle.x = paddle.x - 5
-    if keyboard.right:
-        paddle.x = paddle.x + 5
-
-    update_ball()
-    for bar in bars_list:
-        if ball.colliderect(bar):
-            bars_list.remove(bar)
-            ball_y_speed *= -1
-
-    if paddle.colliderect(ball):
-        ball_y_speed *= -1
-        rand = random.randint(0,1)
-        if rand:
-            ball_x_speed *= -1
-
-def update_ball():
-    global ball_x_speed, ball_y_speed
-    ball.x -= ball_x_speed
-    ball.y -= ball_y_speed
-    if (ball.x >= WIDTH) or (ball.x <=0):
-        ball_x_speed *= -1
-    if (ball.y >= HEIGHT) or (ball.y <=0):
-        ball_y_speed *= -1
-    if ball.y > HEIGHT:
-        pass
+# def update(dt):
+#     global ball_x_speed, ball_y_speed
+#     # if keyboard.left:
+#     #     paddle.x = paddle.x - 5
+#     # if keyboard.right:
+#     #     paddle.x = paddle.x + 5
+#
+#
+#     update_ball()
+#     for bar in bars_list:
+#         if ball.colliderect(bar):
+#             bars_list.remove(bar)
+#             ball_y_speed *= -1
+#
+#     if paddle.colliderect(ball):
+#         ball_y_speed *= -1
+#         rand = random.randint(0,1)
+#         if rand:
+#             ball_x_speed *= -1
+#
+# def update_ball():
+#     global ball_x_speed, ball_y_speed
+#     ball.x -= ball_x_speed
+#     ball.y -= ball_y_speed
+#     if (ball.x >= WIDTH) or (ball.x <=0):
+#         ball_x_speed *= -1
+#     if (ball.y >= HEIGHT) or (ball.y <=0):
+#         ball_y_speed *= -1
+#     if ball.y > HEIGHT:
+#         pass
         #lives counter func
 def lives():
     pass
@@ -146,3 +137,4 @@ for coloured_box in coloured_box_list:
     place_bars(x, y, coloured_box)
     y += 50
 
+pgzrun.go()
