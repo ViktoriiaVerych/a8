@@ -26,6 +26,7 @@ class Ball:
 
         # self.rect = pygame.Rect(self.x, self.y, 6, 6)
         self.actor = Actor('r_b.png',(x, y))
+
     def draw(self):
         self.actor.draw()
 
@@ -54,6 +55,8 @@ class Paddle:
         # pygame.draw.rect(screen, RED, (self.x, self.y, self.size, 10))
 
 
+
+
 paddle = Paddle(350, 370)
 # ball = Ball(200, 200)
 
@@ -78,8 +81,8 @@ def draw():
     screen.draw.rect(paddle.rect, (200,0,0))
     ball.draw()
     # ball.draw()
-    # for bar in bars_list:
-    #     bar.draw()
+    for bar in bars_list:
+        bar.draw()
 
 def place_bars(x,y,image):
     bar_x = x
@@ -88,7 +91,7 @@ def place_bars(x,y,image):
         bar = Actor(image)
         bar.x = bar_x
         bar.y = bar_y
-        bar_x += 70
+        bar_x += 75
         bars_list.append(bar)
 
 def on_mouse_move(pos):
@@ -96,7 +99,7 @@ def on_mouse_move(pos):
     paddle.rect.centerx = x
 
 def update(dt):
-    global ball_x_speed, ball_y_speed
+    global ball_x_speed, ball_y_speed, bricks
     # if keyboard.left:
     #     paddle.x = paddle.x - 5
     # if keyboard.right:
@@ -123,7 +126,7 @@ def update_ball():
         ball_y_speed *= -1
 
     if ball.actor.y >= paddle.rect.y:
-        if paddle.rect.bottomleft[0] <= ball.actor.x <= paddle.rect.bottomright[0]:
+        if paddle.rect.topleft [0] <= ball.actor.x <= paddle.rect.topright[0]:
             ball_y_speed *= -1
         else:
             pass
@@ -134,8 +137,7 @@ def update_ball():
         
 def lives():
     pass
-
-
+lives = 3
 
 coloured_box_list = ["r_g.jpg", "r_o.jpg","r_p.jpg"]
 x = 50
@@ -143,5 +145,11 @@ y = 100
 for coloured_box in coloured_box_list:
     place_bars(x, y, coloured_box)
     y += 50
+
+for i in range(3):
+    pass
+#function of hearts
+
+
 
 pgzrun.go()
